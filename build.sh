@@ -58,7 +58,7 @@ if [[ "$1" == '--' ]]; then shift; fi
 
 # Check the tag
 if [[ -z "$TAG" ]]; then
-  path=$(realpath --relative-to="." "$DOCKERFILE")
+  path=$(realpath --relative-to="." "$DOCKERFILE" | tr "/" "-")
   TAG=${USERNAME:+${USERNAME}/}${path%.Dockerfile}
 
   # Get version information
