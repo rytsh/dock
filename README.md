@@ -2,12 +2,14 @@
 
 Generating docker images for any purpose.
 
+## Usage
+
 ```sh
 ./build.sh --user rytsh --build ./frontend/deno.Dockerfile --latest --push
 ```
 
 Image names:  
-  `rytsh/frontend-deno:v0.0.1` -> version label in dockerfile
+  `rytsh/frontend-deno:v0.0.1` -> version label in dockerfile  
   `rytsh/frontend-deno:latest` -> --latest option is used
 
 
