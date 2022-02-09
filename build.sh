@@ -2,6 +2,8 @@
 
 # Build the docker image
 
+set -e
+
 function usage() {
   cat - <<EOF
 Building dockerfile
@@ -69,7 +71,7 @@ if [[ -z "$TAG" ]]; then
 fi
 
 if [[ ! -e "$DOCKERFILE" ]]; then
-  echo "Dockerfile [$DOCKERFILE] does not exist"
+  echo "> Dockerfile [$DOCKERFILE] does not exist"
   exit 1
 fi
 
@@ -83,8 +85,10 @@ fi
 
 # Push the image to docker hub
 if [[ "$PUSH" == "Y" ]]; then
+  echo "> pushing $TAG_VERSION"
   docker push $TAG_VERSION
   if [[ "$LATEST" == "Y" ]]; then
+    echo "> pushing latest $TAG_LATEST"
     docker push $TAG_LATEST
   fi
 fi
