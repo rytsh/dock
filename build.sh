@@ -33,7 +33,7 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     shift 1
     ;;
   --tag)
-    TAG=$2
+    TAG_VERSION=$2
     shift 1
     ;;
   --latest)
@@ -58,34 +58,40 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
 esac; shift 1; done
 if [[ "$1" == '--' ]]; then shift; fi
 
+if [[ ! -e "$DOCKERFILE" ]]; then
+  echo "> Dockerfile [$DOCKERFILE] does not exist"
+  exit 1
+fi
+
 # Check the tag
-if [[ -z "$TAG" ]]; then
-  path=$(realpath --relative-to="." "$DOCKERFILE" | tr "/" "-")
-  # clean path
-  path=${path%.Dockerfile}
-  path=${path%.dockerfile}
-  path=${path%-Dockerfile}
-  path=${path%-dockerfile}
-  # set tag
-  TAG=${USERNAME:+${USERNAME}/}${path%.Dockerfile}
+if [[ -z "$TAG_VERSION" ]]; then
+  _DOCKERFILE_PATH=$(realpath --relative-to="." "$DOCKERFILE" | tr "/" "-")
+  # Set lowercase
+  _DOCKERFILE_PATH=${_DOCKERFILE_PATH,,}
+  # Clean path
+  _DOCKERFILE_PATH=${_DOCKERFILE_PATH%.dockerfile}
+  _DOCKERFILE_PATH=${_DOCKERFILE_PATH%-dockerfile}
+  # Set tag
+  TAG=${USERNAME:+${USERNAME}/}${_DOCKERFILE_PATH}
 
   # Get version information
   VERSION=$(cat $DOCKERFILE | grep "LABEL version" | cut -d "=" -f2 | tr -d '"')
 
   TAG_VERSION=${TAG}:${VERSION}
-  TAG_LATEST=${TAG}:latest
-fi
-
-if [[ ! -e "$DOCKERFILE" ]]; then
-  echo "> Dockerfile [$DOCKERFILE] does not exist"
-  exit 1
+else
+  # Parse VERSION and TAG
+  _BASE_TAG=${TAG_VERSION##*/}
+  VERSION=${_BASE_TAG##*:}
+  TAG=${TAG_VERSION%:$VERSION}
 fi
 
 # Build the docker image
 docker build -t $TAG_VERSION - < $DOCKERFILE
 
 # Tag the image with 'latest'
-if [[ "$LATEST" == "Y" ]]; then
+if [[ "$LATEST" == "Y" && "$VERSION" != "latest" ]]; then
+  TAG_LATEST=${TAG}:latest
+  echo "> tagging latest"
   docker tag $TAG_VERSION $TAG_LATEST
 fi
 
