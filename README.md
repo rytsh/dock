@@ -4,6 +4,8 @@ Generating docker images for any purpose.
 
 ## Usage
 
+Give an dockerfile to `--build` parameter:
+
 ```sh
 ./build.sh --user rytsh --build ./frontend/deno.Dockerfile --latest --push
 ```
