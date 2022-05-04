@@ -20,6 +20,8 @@ For more information, run `./build.sh --help`.
 ```text
   --build <DOCKERFILE>
     Specify the dockerfile to build.
+  --dry-run
+    Dont run commands just show it.
 
   --tag <TAG>
     Specify the tag of the docker image.
