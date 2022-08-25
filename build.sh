@@ -8,10 +8,14 @@ function usage() {
   cat - <<EOF
 Building dockerfile
 
+$0 --user rytsh --build ./frontend/deno.Dockerfile --latest --push
+
 Usage: $0 <OPTIONS>
 OPTIONS:
   --build <DOCKERFILE>
     Specify the dockerfile to build.
+  --build-arg foo=bar
+    Add build argument when building.
   --dry-run
     Dont run commands just show it.
 
@@ -32,6 +36,10 @@ EOF
 while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
   --build)
     DOCKERFILE=$2
+    shift 1
+    ;;
+  --build-arg)
+    BUILD_ARGS="${BUILD_ARGS} --build-arg ${2}"
     shift 1
     ;;
   --dry-run)
@@ -92,9 +100,9 @@ fi
 
 # Build the docker image
 if [[ "${DRYRUN}" == "Y" ]]; then
-  echo docker build -t ${TAG_VERSION} - ${DOCKERFILE}
+  echo docker build ${BUILD_ARGS} -t ${TAG_VERSION} - ${DOCKERFILE}
 else
-  docker build -t ${TAG_VERSION} - < ${DOCKERFILE}
+  docker build ${BUILD_ARGS} -t ${TAG_VERSION} - < ${DOCKERFILE}
 fi
 
 # Tag the image with 'latest'
