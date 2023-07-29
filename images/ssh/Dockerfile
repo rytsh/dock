@@ -1,9 +1,8 @@
-FROM alpine:3.16
+FROM alpine:3.18.2
 
 ##################
 # SSH in Docker
 ##################
-LABEL version="3.16"
 LABEL maintainer="eates23@gmail.com"
 
 RUN apk add --no-cache \
