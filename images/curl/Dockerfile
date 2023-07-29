@@ -1,3 +1,6 @@
+# ---
+# VERSION="3.18.2"
+# ---
 FROM alpine:3.18.2
 
 LABEL maintainer="eates23@gmail.com"

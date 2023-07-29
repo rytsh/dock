@@ -7,7 +7,7 @@ Generating container images for any purpose.
 Give an dockerfile to `--build` parameter:
 
 ```sh
-./build.sh --prefix rytsh --build ./test/test1.Dockerfile --latest --push
+./build.sh --prefix rytsh --build ./images/test/test1.Dockerfile --latest --push
 ```
 
 Image names:  
@@ -15,6 +15,16 @@ Image names:
   `rytsh/test/test1:latest` -> _--latest_ option is used
 
 `assets` folder near the Dockerfile.
+
+Set version in the Dockerfile:
+
+```dockerfile
+# ---
+# VERSION="3.18.2"
+# ---
+```
+
+You can also add extra options for build with `BUILD_ARGS="--build-arg foo=bar"` value.
 
 For more information, run `./build.sh --help`.
 
