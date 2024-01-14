@@ -17,7 +17,7 @@ And push it to the remote:
 git push origin test/test1/v0.1.0
 ```
 
-## Local Usage
+<details><summary>Local Usage</summary>
 
 Give an dockerfile to `--build` parameter:
 
@@ -59,3 +59,5 @@ For more information, run `./build.sh --help`.
   -h, --help
     This help page
 ```
+
+</details>
