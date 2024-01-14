@@ -4,10 +4,25 @@ Generating container images for any purpose.
 
 ## Usage
 
+Add a tag to for dockerfile:
+
+```sh
+git tag ssh/v0.1.0
+git tag test/test1/v0.1.0
+```
+
+And push it to the remote:
+
+```sh
+git push origin test/test1/v0.1.0
+```
+
+## Local Usage
+
 Give an dockerfile to `--build` parameter:
 
 ```sh
-./build.sh --prefix rytsh --build ./images/test/test1.Dockerfile --latest --push
+./build.sh --prefix rytsh --build ./images/test/test1.Dockerfile --version v0.1.0 --latest --push
 ```
 
 Image names:  
@@ -16,15 +31,13 @@ Image names:
 
 `assets` folder near the Dockerfile.
 
-Set version in the Dockerfile:
+Set extra build args in the Dockerfile:
 
 ```dockerfile
 # ---
-# VERSION="3.18.2"
+# BUILD_ARGS="--build-arg foo=bar"
 # ---
 ```
-
-You can also add extra options for build with `BUILD_ARGS="--build-arg foo=bar"` value.
 
 For more information, run `./build.sh --help`.
 

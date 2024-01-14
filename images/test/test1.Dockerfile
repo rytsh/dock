@@ -1,5 +1,4 @@
 # ---
-# VERSION="0.1.0"
 # BUILD_ARGS="--build-arg foo=bar"
 # ---
 FROM alpine:3.18.2

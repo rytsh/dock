@@ -8,7 +8,7 @@ function usage() {
   cat - <<EOF
 Building dockerfile
 
-$0 --prefix rytsh --build images/test/test1.Dockerfile --latest --push
+$0 --prefix rytsh --build images/test/test1.Dockerfile --version v0.1.0 --latest --push
 
 Usage: $0 <OPTIONS>
 OPTIONS:
@@ -20,6 +20,8 @@ OPTIONS:
   --image-name <IMAGE_NAME>
     Specify the image-name directly.
     Example: rytsh/curl:0.1.0
+  --version <VERSION>
+    Specify the version of the docker image.
   --latest
     Tag the image additional 'latest'.
   --prefix <PREFIX>
@@ -53,6 +55,10 @@ while [[ "$1" =~ ^- && ! "$1" == "--" ]]; do case $1 in
     ;;
   --push)
     _PUSH="Y"
+    ;;
+  --version)
+    _VERSION=$2
+    shift 1
     ;;
   -h | --help )
     usage
@@ -109,7 +115,7 @@ if [[ -z "$_IMAGE_NAME" ]]; then
   # Set tag
   _IMAGE_NAME_BASE=${_PREFIX:+${_PREFIX}/}${_DOCKERFILE_PATH}
 
-  _VERSION=${VERSION:-latest}
+  _VERSION=${_VERSION:-latest}
   _IMAGE_NAME=${_IMAGE_NAME_BASE}:${_VERSION}
 else
   # Parse VERSION and BASE

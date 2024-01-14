@@ -1,0 +1,53 @@
+name: "Release"
+on:
+  push:
+    tags:
+      - '**'
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Env values
+        id: values
+        run: |
+          DOCKER_FILE_PATH=images/${GITHUB_REF_NAME%/*}
+          if [ -e "${DOCKER_FILE_PATH}/Dockerfile" ]; then
+            DOCKER_FILE_PATH=${DOCKER_FILE_PATH}/Dockerfile
+          else 
+            DOCKER_FILE_PATH=${DOCKER_FILE_PATH}.Dockerfile
+          fi
+          if [ ! -e "${DOCKER_FILE_PATH}" ]; then
+            echo "Dockerfile not found in ${DOCKER_FILE_PATH} on ${GITHUB_REF_NAME}"
+            exit 1
+          fi
+          echo "DOCKER_IMAGE_NAME"=${GITHUB_REF_NAME%/*} >> "$GITHUB_OUTPUT"
+          echo "DOCKER_IMAGE_TAG"=${GITHUB_REF_NAME##*/} >> "$GITHUB_OUTPUT"
+          echo "DOCKER_FILE_PATH=${DOCKER_FILE_PATH}" >> "$GITHUB_OUTPUT"
+          CONTEXT_PATH="${DOCKER_FILE_PATH%/*}/assets"
+          if [ -e "${CONTEXT_PATH}" ]; then
+            echo "CONTEXT_PATH=${CONTEXT_PATH}" >> "$GITHUB_OUTPUT"
+          fi
+          eval $(grep -z -o -P '(?<=# ---)(?s).*(?=# ---)' $DOCKER_FILE_PATH | tr -d '#' | xargs --null)
+          echo ${BUILD_ARGS} | sed 's/--build-arg //g' | xargs -n 1 echo | echo "BUILD_ARGS=$(cat)" >> "$GITHUB_OUTPUT"
+      - name: Log in to the Container registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Buildah Action
+        uses: redhat-actions/buildah-build@v2
+        with:
+          image: ghcr.io/${{ github.repository }}/${{ steps.values.outputs.DOCKER_IMAGE_NAME }}
+          tags: ${{ steps.values.outputs.DOCKER_IMAGE_TAG }} latest 
+          context: ${{ steps.values.outputs.CONTEXT_PATH }}
+          containerfiles: |
+            ${{ steps.values.outputs.DOCKER_FILE_PATH }}
+          build-args: |
+            ${{ steps.values.outputs.BUILD_ARGS }}
