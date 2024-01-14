@@ -35,14 +35,9 @@ jobs:
           fi
           eval $(grep -z -o -P '(?<=# ---)(?s).*(?=# ---)' $DOCKER_FILE_PATH | tr -d '#' | xargs --null)
           echo ${BUILD_ARGS} | sed 's/--build-arg //g' | xargs -n 1 echo | echo "BUILD_ARGS=$(cat)" >> "$GITHUB_OUTPUT"
-      - name: Log in to the Container registry
-        uses: docker/login-action@v2
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
+        id: build-image
         with:
           image: ghcr.io/${{ github.repository }}/${{ steps.values.outputs.DOCKER_IMAGE_NAME }}
           tags: ${{ steps.values.outputs.DOCKER_IMAGE_TAG }} latest 
@@ -51,3 +46,14 @@ jobs:
             ${{ steps.values.outputs.DOCKER_FILE_PATH }}
           build-args: |
             ${{ steps.values.outputs.BUILD_ARGS }}
+      - name: Push To ghcr
+        id: push-to-ghcr
+        uses: redhat-actions/push-to-registry@v2
+        with:
+          image: ${{ steps.build-image.outputs.image }}
+          tags: ${{ steps.build-image.outputs.tags }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print image url
+        run: echo "Image pushed to ${{ steps.push-to-ghcr.outputs.registry-paths }}"
