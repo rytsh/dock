@@ -1,0 +1,5 @@
+images/db/assets/ingres/docker.ingres.driver.template filter=lfs diff=lfs merge=lfs -text
+images/db/assets/ingres/iijdbc.jar filter=lfs diff=lfs merge=lfs -text
+images/db/assets/ingres/ingres.driver.template.tmp filter=lfs diff=lfs merge=lfs -text
+images/db/assets/ingres/ingres.tar.gz filter=lfs diff=lfs merge=lfs -text
+images/db/assets/oracle/instantclient_19_6.tar.gz filter=lfs diff=lfs merge=lfs -text
