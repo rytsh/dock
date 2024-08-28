@@ -3,8 +3,8 @@ FROM debian:12.6-slim
 RUN apt-get update && apt-get install --no-install-recommends -y \
     unixodbc odbcinst
 
-ADD /assets/ingres/ingres.tar.gz /driver/
-COPY /assets/ingres/docker.ingres.driver.template /driver/ingres.driver.template
+ADD /ingres/ingres.tar.gz /driver/
+COPY /ingres/docker.ingres.driver.template /driver/ingres.driver.template
 
 # required by Ingres ODBC and timezone information for connection and local
 ENV II_SYSTEM=/driver \

@@ -4,8 +4,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
     unixodbc odbcinst libaio1
 
 ## Ingres PART
-ADD /assets/ingres/ingres.tar.gz /driver/
-COPY /assets/ingres/docker.ingres.driver.template /driver/ingres.driver.template
+ADD /ingres/ingres.tar.gz /driver/
+COPY /ingres/docker.ingres.driver.template /driver/ingres.driver.template
 
 # required by Ingres ODBC and timezone information for connection and local
 ENV II_SYSTEM=/driver \
@@ -19,7 +19,7 @@ ENV II_SYSTEM=/driver \
 RUN odbcinst -i -d -f /driver/ingres.driver.template
 
 ## Oracle PART
-ADD /assets/oracle/instantclient_19_6.tar.gz /usr/lib/
+ADD /oracle/instantclient_19_6.tar.gz /usr/lib/
 RUN ln /usr/lib/instantclient_19_6/libclntsh.so.19.1 /usr/lib/libclntsh.so && \
     ln /usr/lib/instantclient_19_6/libocci.so.19.1 /usr/lib/libocci.so && \
     ln /usr/lib/instantclient_19_6/libociei.so /usr/lib/libociei.so && \
