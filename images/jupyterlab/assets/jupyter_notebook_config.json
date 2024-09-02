@@ -1,0 +1,8 @@
+{
+    "NotebookApp": {
+        "password": "sha1:7eed7f0bda36:0fa7a813d01d9e878119e54c5562f41bab61a442",
+        "allow_remote_access": true,
+        "open_browser": false,
+        "allow_root": true
+    }
+}

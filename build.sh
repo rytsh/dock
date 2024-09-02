@@ -127,9 +127,9 @@ fi
 
 # Build the docker image
 if [[ -n "$_ASSETS_DIR" ]]; then
-  dry_run "docker build -t ${_IMAGE_NAME} ${BUILD_ARGS} --file ${_DOCKERFILE} ${_ASSETS_DIR}"
+  dry_run "docker build -t ${_IMAGE_NAME} ${BUILD_ARGS} ${LABELS} --file ${_DOCKERFILE} ${_ASSETS_DIR}"
 else
-  dry_run "docker build -t ${_IMAGE_NAME} ${BUILD_ARGS} - < ${_DOCKERFILE}"
+  dry_run "docker build -t ${_IMAGE_NAME} ${BUILD_ARGS} ${LABELS} - < ${_DOCKERFILE}"
 fi
 
 # Tag the image with 'latest'
