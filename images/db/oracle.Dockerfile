@@ -1,4 +1,4 @@
-FROM debian:12.6-slim
+FROM debian:12.10-slim
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
     unixodbc odbcinst libaio1
