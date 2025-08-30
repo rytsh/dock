@@ -1,7 +1,7 @@
 FROM debian:13.0-slim
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-    unixodbc odbcinst libaio1
+    unixodbc odbcinst libaio1t64
 
 ## Ingres PART
 ADD /ingres/ingres.tar.gz /driver/
@@ -23,7 +23,8 @@ ADD /oracle/instantclient_19_6.tar.gz /usr/lib/
 RUN ln /usr/lib/instantclient_19_6/libclntsh.so.19.1 /usr/lib/libclntsh.so && \
     ln /usr/lib/instantclient_19_6/libocci.so.19.1 /usr/lib/libocci.so && \
     ln /usr/lib/instantclient_19_6/libociei.so /usr/lib/libociei.so && \
-    ln /usr/lib/instantclient_19_6/libnnz19.so /usr/lib/libnnz19.so
+    ln /usr/lib/instantclient_19_6/libnnz19.so /usr/lib/libnnz19.so && \
+    ln -s /usr/lib/x86_64-linux-gnu/libaio.so.1t64 /usr/lib/libaio.so.1
 
 ENV ORACLE_BASE /usr/lib/instantclient_19_6
 ENV LD_LIBRARY_PATH /usr/lib/instantclient_19_6:$LD_LIBRARY_PATH
