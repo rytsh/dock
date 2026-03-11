@@ -1,8 +1,8 @@
-FROM golang:1.25.5
+FROM golang:1.26.0
 
-ARG GOLANGCI_LINT_VERSION=v2.7.2
+ARG GOLANGCI_LINT_VERSION=v2.11.3
 ARG GOTESTSUM_VERSION=v1.13.0
-ARG GORELEASER_VERSION=v2.13.1
+ARG GORELEASER_VERSION=v2.14.3
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
@@ -18,4 +18,4 @@ RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/i
 
 WORKDIR /workspace
 
-CMD /bin/bash
+ENTRYPOINT ["/bin/bash"]
