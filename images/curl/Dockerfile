@@ -1,6 +1,6 @@
 # ---
 # ---
-FROM alpine:3.23.2
+FROM alpine:3.24.1
 
 # add curl and ca-certificates
 RUN apk --no-cache --no-progress add bash curl ca-certificates tzdata
