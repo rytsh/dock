@@ -1,8 +1,8 @@
-FROM golang:1.26.1
+FROM golang:1.27.0
 
-ARG GOLANGCI_LINT_VERSION=v2.11.3
+ARG GOLANGCI_LINT_VERSION=v2.13.2
 ARG GOTESTSUM_VERSION=v1.13.0
-ARG GORELEASER_VERSION=v2.14.3
+ARG GORELEASER_VERSION=v2.18.0
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
