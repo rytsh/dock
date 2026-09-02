@@ -1,6 +1,6 @@
 # ---
 # ---
-FROM alpine:3.19.0
+FROM alpine:3.24.1
 
 ##################
 # SSH in Container for TCP Tunneling
