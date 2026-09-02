@@ -10,7 +10,7 @@ RUN apt-get update && apt-get upgrade -y && \
 
 ENV LD_LIBRARY_PATH="/usr/lib"
 
-RUN curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin $GOLANGCI_LINT_VERSION &&\
+RUN curl -sSfL https://golangci-lint.run/install.sh | sh -s -- -b $(go env GOPATH)/bin $GOLANGCI_LINT_VERSION &&\
     golangci-lint --version &&\ 
     # Gotestsum to make nice reports on service tests
     go install gotest.tools/gotestsum@${GOTESTSUM_VERSION:-latest} &&\
