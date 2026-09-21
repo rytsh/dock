@@ -2,7 +2,7 @@ FROM golang:1.27.1
 
 ARG GOLANGCI_LINT_VERSION=v2.13.2
 ARG GOTESTSUM_VERSION=v1.13.0
-ARG GORELEASER_VERSION=v2.18.0
+ARG GORELEASER_VERSION=v2.18.2
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install -y --no-install-recommends \
